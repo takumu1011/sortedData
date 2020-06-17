@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <table class="data-table">
+    <thead>
+      <tr><th>名前</th><th>電話番号</th><th>webサイト </th></tr>
+    </thead>
+    <tbody id="data" class="data"></tbody>
+  </table>
+  <script>
+    const data = fetch('https://jsonplaceholder.typicode.com/users')
+    .then((res) => res.json())
+    .then((json) => {
+      const sortedData = json.sort((val1, val2) => {
+        return val1.name > val2.name ? 1 : -1;
+      });
+      sortedData.forEach((data) => {
+        const array = [data.name, data.phone, data.website];
+        const tr = document.createElement('tr');
+        for(let i = 0; i < array.length; i++) {
+          let td = document.createElement('td');
+          td.textContent = array[i];
+          tr.appendChild(td);
+        }
+        document.getElementById('data').appendChild(tr);
+      })
+    });
+  </script>
+</body>
+</html>
